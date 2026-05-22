@@ -100,9 +100,47 @@ epic_books/
 └── collection.json  (if downloading a collection)
 ```
 
-## 🤖 Hermes Agent Integration
+## 🤖 AI Agent Integration
 
-This tool can also be used as a [Hermes Agent](https://github.com/NousResearch/hermes-agent) skill. See [SKILL.md](SKILL.md) for details.
+This tool can be used as a skill/plugin for various AI agent platforms. Copy `SKILL.md` to your agent's skill directory and the agent can automatically download books when you ask.
+
+### Supported Platforms
+
+| Platform | Skill Directory | Status |
+|----------|----------------|--------|
+| [Hermes Agent](https://github.com/NousResearch/hermes-agent) | `~/.hermes/skills/` | ✅ Supported |
+| [OpenClaw](https://github.com/open-claw/open-claw) | `~/.openclaw/skills/` | ✅ Supported |
+| Any agent supporting markdown skills | Agent's skill config | ✅ Supported |
+
+### Hermes Agent
+
+```bash
+# Copy skill to Hermes skills directory
+cp SKILL.md ~/.hermes/skills/epic-booklet.md
+
+# Then in Hermes chat:
+"Download EPIC book 47110"
+"Download this collection: https://www.getepic.com/app/user-collection/34822900"
+```
+
+### OpenClaw
+
+```bash
+# Copy skill to OpenClaw skills directory
+cp SKILL.md ~/.openclaw/skills/epic-booklet.md
+
+# Then in OpenClaw chat:
+"Download EPIC book 47110"
+"Download this collection: https://www.getepic.com/app/user-collection/34822900"
+```
+
+### Custom Agent
+
+If your agent supports loading markdown files as skills/instructions:
+
+1. Copy `SKILL.md` to your agent's skill directory
+2. Ensure the agent has access to Python and the required dependencies
+3. The agent will use the skill's instructions to run the download commands
 
 ## ⚠️ Important Notes
 

@@ -105,6 +105,24 @@ epic_books/
 - **Login endpoint**: Try `newauth.getepic.com` first, fall back to `WebAuth.login`
 - **Browser-based auth**: If API login fails, provide a fresh JWT token from browser DevTools (Network tab → find any `api-web.getepic.com` request → copy Bearer token)
 
+## AI Agent Integration
+
+This skill works with multiple AI agent platforms:
+
+| Platform | Skill Directory |
+|----------|----------------|
+| [Hermes Agent](https://github.com/NousResearch/hermes-agent) | `~/.hermes/skills/` |
+| [OpenClaw](https://github.com/open-claw/open-claw) | `~/.openclaw/skills/` |
+| Custom | Any markdown-compatible skill path |
+
+### Usage Examples
+
+Once installed as a skill, you can ask your agent:
+
+- "Download EPIC book 47110"
+- "Download this collection: https://www.getepic.com/app/user-collection/34822900"
+- "Download these books: 47110, 47200, 37798"
+
 ## Documentation
 
 - English: [README.md](https://github.com/irvinezhao/epic-booklet-downloader/blob/main/README.md)

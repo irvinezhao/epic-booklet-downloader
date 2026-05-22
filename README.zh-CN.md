@@ -100,9 +100,47 @@ epic_books/
 └── collection.json  （如果下载整个collection）
 ```
 
-## 🤖 Hermes Agent 集成
+## 🤖 AI Agent 集成
 
-此工具可作为 [Hermes Agent](https://github.com/NousResearch/hermes-agent) 技能使用。详见 [SKILL.md](SKILL.md)。
+本工具可作为各种AI Agent平台的技能/插件使用。将 `SKILL.md` 复制到Agent的技能目录，Agent即可在你提问时自动下载绘本。
+
+### 支持平台
+
+| 平台 | 技能目录 | 状态 |
+|------|---------|------|
+| [Hermes Agent](https://github.com/NousResearch/hermes-agent) | `~/.hermes/skills/` | ✅ 支持 |
+| [OpenClaw](https://github.com/open-claw/open-claw) | `~/.openclaw/skills/` | ✅ 支持 |
+| 任何支持Markdown技能的Agent | Agent技能配置目录 | ✅ 支持 |
+
+### Hermes Agent
+
+```bash
+# 复制技能到Hermes技能目录
+cp SKILL.md ~/.hermes/skills/epic-booklet.md
+
+# 然后在Hermes聊天中：
+"下载EPIC绘本 47110"
+"下载这个collection: https://www.getepic.com/app/user-collection/34822900"
+```
+
+### OpenClaw
+
+```bash
+# 复制技能到OpenClaw技能目录
+cp SKILL.md ~/.openclaw/skills/epic-booklet.md
+
+# 然后在OpenClaw聊天中：
+"下载EPIC绘本 47110"
+"下载这个collection: https://www.getepic.com/app/user-collection/34822900"
+```
+
+### 自定义Agent
+
+如果你的Agent支持加载Markdown文件作为技能/指令：
+
+1. 将 `SKILL.md` 复制到Agent的技能目录
+2. 确保Agent可以访问Python和所需依赖
+3. Agent将根据技能中的说明执行下载命令
 
 ## ⚠️ 重要提示
 
