@@ -1,6 +1,6 @@
-# 📚 Epic Booklet Downloader
+# 📚 Epic Booklet Downloader (Hermes Skill)
 
-Download children's books from [getepic.com](https://www.getepic.com) and generate print-ready saddle-stitch booklet PDFs.
+A [Hermes Agent](https://github.com/NousResearch/hermes-agent) skill that downloads children's books from [getepic.com](https://www.getepic.com) and generates print-ready saddle-stitch booklet PDFs.
 
 ![Python](https://img.shields.io/badge/python-3.10+-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -21,37 +21,37 @@ Download children's books from [getepic.com](https://www.getepic.com) and genera
 pip install Pillow requests
 
 # Download a single book
-python epic_downloader.py --book-id 47110 --email your@email.com --password yourpass
+python scripts/epic_downloader.py --book-id 47110 --email your@email.com --password yourpass
 
 # Download a collection
-python epic_downloader.py --collection 34822900 --email your@email.com --password yourpass
+python scripts/epic_downloader.py --collection 34822900 --email your@email.com --password yourpass
 
 # Or use environment variables
 export EPIC_EMAIL=your@email.com
-export EPIC_PASSWORD=yourpass
-python epic_downloader.py --book-id 47110
+export EPIC_PASSWORD=***
+python scripts/epic_downloader.py --book-id 47110
 ```
 
 ## 📖 Usage
 
 ### Single Book
 ```bash
-python epic_downloader.py --book-id <BOOK_ID>
+python scripts/epic_downloader.py --book-id <BOOK_ID>
 ```
 
 ### Multiple Books
 ```bash
-python epic_downloader.py --book-ids 47110,47200,37798
+python scripts/epic_downloader.py --book-ids 47110,47200,37798
 ```
 
 ### Entire Collection
 ```bash
-python epic_downloader.py --collection <COLLECTION_ID>
+python scripts/epic_downloader.py --collection <COLLECTION_ID>
 ```
 
 ### Custom Output Directory
 ```bash
-python epic_downloader.py --book-id 47110 --output ./my_books
+python scripts/epic_downloader.py --book-id 47110 --output ./my_books
 ```
 
 ## 🖨️ Printing Instructions
