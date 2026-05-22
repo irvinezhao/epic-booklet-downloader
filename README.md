@@ -174,3 +174,7 @@ Contributions welcome! Please open an issue or PR.
 ## ⭐ Star History
 
 If you find this useful, please star the repo!
+
+## ⭐ Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=irvinezhao/epic-booklet-downloader&type=Date)](https://star-history.com/#irvinezhao/epic-booklet-downloader&Date)
