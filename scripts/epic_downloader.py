@@ -7,6 +7,7 @@ Usage:
     python epic_downloader.py --book-id 47110
     python epic_downloader.py --collection 34822900
     python epic_downloader.py --book-id 47110 --output ./my_books
+    python epic_downloader.py --book-id 47110 --token <epic_jwt>
 
 Requirements:
     pip install Pillow requests
@@ -18,6 +19,7 @@ How it works:
     4. Downloads all page images from CDN
     5. Generates a saddle-stitch booklet PDF (print-ready)
 """
+from __future__ import annotations
 
 import argparse
 import hashlib
@@ -28,6 +30,7 @@ import sys
 import time
 import glob
 from pathlib import Path
+from typing import Optional
 
 try:
     import requests
@@ -85,10 +88,10 @@ def compute_pass_hash(password: str) -> str:
 class EpicClient:
     """Epic API client with automatic authentication and signature generation."""
     
-    def __init__(self, email: str, password: str):
+    def __init__(self, email: Optional[str] = None, password: Optional[str] = None, token: Optional[str] = None):
         self.email = email
         self.password = password
-        self.token = None
+        self.token = token
         self.session = requests.Session()
         self.session.headers.update({
             "accept": "application/json, text/plain, */*",
@@ -100,9 +103,19 @@ class EpicClient:
                           "Chrome/131.0.0.0 Safari/537.36",
             "x-flagsmith-auth": "1",
         })
+        if self.token:
+            self.session.headers["authorization"] = f"Bearer {self.token}"
     
     def login(self) -> bool:
-        """Authenticate and obtain a JWT token."""
+        """Authenticate and obtain a JWT token, unless one was provided."""
+        if self.token:
+            print("✓ Using provided access token")
+            return True
+
+        if not self.email or not self.password:
+            print("✗ Email and password required when no access token is provided")
+            return False
+
         pass_hash = compute_pass_hash(self.password)
         
         # Try the new auth endpoint
@@ -116,7 +129,7 @@ class EpicClient:
         if data.get("accessToken"):
             self.token = data["accessToken"]
             self.session.headers["authorization"] = f"Bearer {self.token}"
-            print(f"✓ Login successful (token: {self.token[:30]}...)")
+            print("✓ Login successful")
             return True
         
         # Fallback: try the webapi auth endpoint
@@ -139,7 +152,7 @@ class EpicClient:
         if data.get("success") and data.get("result", {}).get("accessToken"):
             self.token = data["result"]["accessToken"]
             self.session.headers["authorization"] = f"Bearer {self.token}"
-            print(f"✓ Login successful (token: {self.token[:30]}...)")
+            print("✓ Login successful")
             return True
         
         print(f"✗ Login failed: {data.get('errorMessage', 'unknown error')}")
@@ -348,13 +361,15 @@ def main():
         epilog="""
 Examples:
   %(prog)s --book-id 47110
+  %(prog)s --book-id 47110 --token <epic_jwt>
   %(prog)s --book-id 47110 --email user@edu.cn --password mypass
   %(prog)s --book-ids 47110,47200,37798
   %(prog)s --collection 34822900
 
 Environment variables (alternative to CLI args):
-  EPIC_EMAIL    - Epic account email
-  EPIC_PASSWORD - Epic account password
+  EPIC_ACCESS_TOKEN - Epic JWT access token
+  EPIC_EMAIL        - Epic account email
+  EPIC_PASSWORD     - Epic account password
         """,
     )
     
@@ -363,12 +378,13 @@ Environment variables (alternative to CLI args):
     parser.add_argument("--collection", help="Collection/favorites ID to download all books")
     parser.add_argument("--email", default=os.environ.get("EPIC_EMAIL"), help="Epic account email")
     parser.add_argument("--password", default=os.environ.get("EPIC_PASSWORD"), help="Epic account password")
+    parser.add_argument("--token", default=os.environ.get("EPIC_ACCESS_TOKEN"), help="Epic JWT access token (alternative to email/password)")
     parser.add_argument("--output", "-o", default="./epic_books", help="Output directory (default: ./epic_books)")
     
     args = parser.parse_args()
     
-    if not args.email or not args.password:
-        print("Error: email and password required (via --email/--password or EPIC_EMAIL/EPIC_PASSWORD env vars)")
+    if not args.token and (not args.email or not args.password):
+        print("Error: provide either --token/EPIC_ACCESS_TOKEN or email and password (via --email/--password or EPIC_EMAIL/EPIC_PASSWORD)")
         sys.exit(1)
     
     if not any([args.book_id, args.book_ids, args.collection]):
@@ -376,7 +392,7 @@ Environment variables (alternative to CLI args):
         sys.exit(1)
     
     # Login
-    client = EpicClient(args.email, args.password)
+    client = EpicClient(args.email, args.password, args.token)
     if not client.login():
         sys.exit(1)
     

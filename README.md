@@ -27,13 +27,24 @@ pip install -r requirements.txt
 
 ### Set Credentials
 
+Prefer a short-lived browser access token so your account password is not passed to the script:
+
+```bash
+export EPIC_ACCESS_TOKEN=your_epic_jwt
+```
+
+You can copy it from browser DevTools (Network tab → any `api-web.getepic.com` request → copy the authorization header value after the bearer prefix).
+
+Alternatively, use email/password:
+
 ```bash
 export EPIC_EMAIL=your@email.com
 export EPIC_PASSWORD=yourpass
 ```
 
-Or pass them directly via CLI flags:
+Or pass credentials directly via CLI flags:
 ```bash
+--token your_epic_jwt
 --email your@email.com --password yourpass
 ```
 

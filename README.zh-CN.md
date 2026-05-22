@@ -27,6 +27,16 @@ pip install -r requirements.txt
 
 ### 设置账号
 
+优先使用短期浏览器 access token，这样不用把账号密码传给脚本：
+
+```bash
+export EPIC_ACCESS_TOKEN=your_epic_jwt
+```
+
+获取方式：浏览器 DevTools → Network → 任意 `api-web.getepic.com` 请求 → 复制 authorization header 中 bearer 前缀后面的 token。
+
+也可以使用邮箱/密码：
+
 ```bash
 export EPIC_EMAIL=your@email.com
 export EPIC_PASSWORD=yourpass
@@ -34,6 +44,7 @@ export EPIC_PASSWORD=yourpass
 
 或通过命令行参数直接传入：
 ```bash
+--token your_epic_jwt
 --email your@email.com --password yourpass
 ```
 

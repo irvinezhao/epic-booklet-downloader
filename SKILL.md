@@ -25,6 +25,14 @@ pip install -r requirements.txt
 
 ### 2. Set Credentials
 
+Prefer a short-lived browser access token so the script does not need your account password:
+
+```bash
+export EPIC_ACCESS_TOKEN=your_epic_jwt
+```
+
+Alternatively, use email/password:
+
 ```bash
 export EPIC_EMAIL=your@email.com
 export EPIC_PASSWORD=yourpass
@@ -50,6 +58,7 @@ python scripts/epic_downloader.py --collection 34822900
 --book-ids ID,ID,...  Download multiple books (comma-separated)
 --collection ID       Download entire collection
 --output DIR          Output directory (default: ./epic_books)
+--token TOKEN         Epic JWT access token
 --email EMAIL         Epic account email
 --password PASS       Epic account password
 ```
