@@ -1,6 +1,6 @@
-# 📚 Epic Booklet Downloader (Hermes Skill)
+# 📚 Epic Booklet Downloader
 
-A [Hermes Agent](https://github.com/NousResearch/hermes-agent) skill that downloads children's books from [getepic.com](https://www.getepic.com) and generates print-ready saddle-stitch booklet PDFs.
+Download children's books from [getepic.com](https://www.getepic.com) and generate print-ready saddle-stitch booklet PDFs.
 
 ![Python](https://img.shields.io/badge/python-3.10+-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -17,75 +17,39 @@ A [Hermes Agent](https://github.com/NousResearch/hermes-agent) skill that downlo
 
 ## 🚀 Quick Start
 
-### Option 1: Use as Hermes Skill (Recommended)
-
-1. **Clone the repo**
-   ```bash
-   git clone https://github.com/irvinezhao/epic-booklet-downloader.git
-   cd epic-booklet-downloader
-   ```
-
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Copy SKILL.md to Hermes skills directory**
-   ```bash
-   cp SKILL.md ~/.hermes/skills/epic-booklet.md
-   ```
-
-4. **Set environment variables** (optional)
-   ```bash
-   export EPIC_EMAIL=your@email.com
-   export EPIC_PASSWORD=yourpass
-   ```
-
-5. **Use with Hermes Agent**
-   ```
-   # In Hermes chat:
-   "Download EPIC book 47110"
-   "Download this collection: https://www.getepic.com/app/user-collection/34822900"
-   "Download these books: 47110, 47200, 37798"
-   ```
-
-### Option 2: Use Standalone
+### Install
 
 ```bash
-# Install dependencies
-pip install Pillow requests
+git clone https://github.com/irvinezhao/epic-booklet-downloader.git
+cd epic-booklet-downloader
+pip install -r requirements.txt
+```
 
-# Download a single book
-python scripts/epic_downloader.py --book-id 47110 --email your@email.com --password yourpass
+### Set Credentials
 
-# Download a collection
-python scripts/epic_downloader.py --collection 34822900 --email your@email.com --password yourpass
-
-# Or use environment variables
+```bash
 export EPIC_EMAIL=your@email.com
-export EPIC_PASSWORD=***
+export EPIC_PASSWORD=yourpass
+```
+
+Or pass them directly via CLI flags:
+```bash
+--email your@email.com --password yourpass
+```
+
+### Download
+
+```bash
+# Single book
 python scripts/epic_downloader.py --book-id 47110
-```
 
-## 📖 Usage
-
-### Single Book
-```bash
-python scripts/epic_downloader.py --book-id <BOOK_ID>
-```
-
-### Multiple Books
-```bash
+# Multiple books
 python scripts/epic_downloader.py --book-ids 47110,47200,37798
-```
 
-### Entire Collection
-```bash
-python scripts/epic_downloader.py --collection <COLLECTION_ID>
-```
+# Entire collection
+python scripts/epic_downloader.py --collection 34822900
 
-### Custom Output Directory
-```bash
+# Custom output directory
 python scripts/epic_downloader.py --book-id 47110 --output ./my_books
 ```
 
@@ -98,7 +62,7 @@ python scripts/epic_downloader.py --book-id 47110 --output ./my_books
 
 ## 🔧 How It Works
 
-1. **Authentication**: Logs in via Epic's new auth API with your educator/parent account
+1. **Authentication**: Logs in via Epic's auth API with your educator/parent account
 2. **Signature**: Reverse-engineers the `reqSig` parameter (MD5 + salt from Epic's frontend JS)
 3. **Metadata**: Fetches book data via `WebBook.getFullDataForWeb` API
 4. **Download**: Downloads all page images from Epic's CDN (no auth required for CDN)
@@ -107,13 +71,17 @@ python scripts/epic_downloader.py --book-id 47110 --output ./my_books
 ### The `reqSig` Algorithm
 
 ```python
-# From Epic's main.*.js (reverse-engineered)
-def compute_reqsig(params):
+import hashlib, json
+
+EPIC_SALT = "#$%^&*(OIKJHBDE$R%^Y&UIOL"
+
+def compute_reqsig(params: dict) -> str:
     keys = sorted(params.keys())
-    sig_str = "#$%^&*(OIKJHBDE$R%^Y&UIOL"  # salt
+    sig_str = EPIC_SALT
     for k in keys:
-        sig_str += k + str(params[k])
-    return md5(sig_str.encode()).hexdigest()
+        v = params[k]
+        sig_str += k + (json.dumps(v) if isinstance(v, (dict, list)) else str(v))
+    return hashlib.md5(sig_str.encode()).hexdigest()
 ```
 
 ## 📁 Output Structure
@@ -131,6 +99,10 @@ epic_books/
 │   └── 小红帽.pdf
 └── collection.json  (if downloading a collection)
 ```
+
+## 🤖 Hermes Agent Integration
+
+This tool can also be used as a [Hermes Agent](https://github.com/NousResearch/hermes-agent) skill. See [SKILL.md](SKILL.md) for details.
 
 ## ⚠️ Important Notes
 

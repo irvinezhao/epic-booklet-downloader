@@ -1,6 +1,6 @@
-# 📚 EPIC绘本下载器 (Hermes Skill)
+# 📚 EPIC绘本下载器
 
-一个 [Hermes Agent](https://github.com/NousResearch/hermes-agent) 技能，从 [getepic.com](https://www.getepic.com) 下载儿童绘本并生成可打印的骑马钉小册子PDF。
+从 [getepic.com](https://www.getepic.com) 下载儿童绘本并生成可打印的骑马钉小册子PDF。
 
 ![Python](https://img.shields.io/badge/python-3.10+-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -17,75 +17,39 @@
 
 ## 🚀 快速开始
 
-### 方式一：作为 Hermes Skill 使用（推荐）
-
-1. **克隆仓库**
-   ```bash
-   git clone https://github.com/irvinezhao/epic-booklet-downloader.git
-   cd epic-booklet-downloader
-   ```
-
-2. **安装依赖**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **复制 SKILL.md 到 Hermes skills 目录**
-   ```bash
-   cp SKILL.md ~/.hermes/skills/epic-booklet.md
-   ```
-
-4. **设置环境变量**（可选）
-   ```bash
-   export EPIC_EMAIL=your@email.com
-   export EPIC_PASSWORD=yourpass
-   ```
-
-5. **在 Hermes Agent 中使用**
-   ```
-   # 在 Hermes 聊天中：
-   "下载EPIC绘本 47110"
-   "下载这个collection: https://www.getepic.com/app/user-collection/34822900"
-   "下载这几本书：47110, 47200, 37798"
-   ```
-
-### 方式二：独立使用
+### 安装
 
 ```bash
-# 安装依赖
-pip install Pillow requests
+git clone https://github.com/irvinezhao/epic-booklet-downloader.git
+cd epic-booklet-downloader
+pip install -r requirements.txt
+```
 
-# 下载单本
-python scripts/epic_downloader.py --book-id 47110 --email your@email.com --password yourpass
+### 设置账号
 
-# 下载整个Collection
-python scripts/epic_downloader.py --collection 34822900 --email your@email.com --password yourpass
-
-# 或使用环境变量
+```bash
 export EPIC_EMAIL=your@email.com
-export EPIC_PASSWORD=***
+export EPIC_PASSWORD=yourpass
+```
+
+或通过命令行参数直接传入：
+```bash
+--email your@email.com --password yourpass
+```
+
+### 下载
+
+```bash
+# 单本下载
 python scripts/epic_downloader.py --book-id 47110
-```
 
-## 📖 使用方法
-
-### 单本下载
-```bash
-python scripts/epic_downloader.py --book-id <BOOK_ID>
-```
-
-### 多本下载
-```bash
+# 多本下载
 python scripts/epic_downloader.py --book-ids 47110,47200,37798
-```
 
-### 整个Collection下载
-```bash
-python scripts/epic_downloader.py --collection <COLLECTION_ID>
-```
+# 整个Collection下载
+python scripts/epic_downloader.py --collection 34822900
 
-### 自定义输出目录
-```bash
+# 自定义输出目录
 python scripts/epic_downloader.py --book-id 47110 --output ./my_books
 ```
 
@@ -98,7 +62,7 @@ python scripts/epic_downloader.py --book-id 47110 --output ./my_books
 
 ## 🔧 工作原理
 
-1. **认证**：通过 Epic 的新认证 API 使用教育者/家长账号登录
+1. **认证**：通过 Epic 的认证 API 使用教育者/家长账号登录
 2. **签名**：逆向工程 `reqSig` 参数（来自 Epic 前端 JS 的 MD5 + 盐值）
 3. **元数据**：通过 `WebBook.getFullDataForWeb` API 获取书籍数据
 4. **下载**：从 Epic CDN 下载所有页面图片（CDN无需认证）
@@ -107,13 +71,17 @@ python scripts/epic_downloader.py --book-id 47110 --output ./my_books
 ### `reqSig` 签名算法
 
 ```python
-# 从 Epic 的 main.*.js 逆向工程得到
-def compute_reqsig(params):
+import hashlib, json
+
+EPIC_SALT = "#$%^&*(OIKJHBDE$R%^Y&UIOL"
+
+def compute_reqsig(params: dict) -> str:
     keys = sorted(params.keys())
-    sig_str = "#$%^&*(OIKJHBDE$R%^Y&UIOL"  # 盐值
+    sig_str = EPIC_SALT
     for k in keys:
-        sig_str += k + str(params[k])
-    return md5(sig_str.encode()).hexdigest()
+        v = params[k]
+        sig_str += k + (json.dumps(v) if isinstance(v, (dict, list)) else str(v))
+    return hashlib.md5(sig_str.encode()).hexdigest()
 ```
 
 ## 📁 输出结构
@@ -131,6 +99,10 @@ epic_books/
 │   └── 小红帽.pdf
 └── collection.json  （如果下载整个collection）
 ```
+
+## 🤖 Hermes Agent 集成
+
+此工具可作为 [Hermes Agent](https://github.com/NousResearch/hermes-agent) 技能使用。详见 [SKILL.md](SKILL.md)。
 
 ## ⚠️ 重要提示
 
