@@ -4,6 +4,7 @@ A [Hermes Agent](https://github.com/NousResearch/hermes-agent) skill that downlo
 
 ![Python](https://img.shields.io/badge/python-3.10+-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
+[![中文文档](https://img.shields.io/badge/文档-中文-blue)](README.zh-CN.md)
 
 ## ✨ Features
 
@@ -15,6 +16,40 @@ A [Hermes Agent](https://github.com/NousResearch/hermes-agent) skill that downlo
 - 🖨️ Print-ready format: double-sided, fold, staple
 
 ## 🚀 Quick Start
+
+### Option 1: Use as Hermes Skill (Recommended)
+
+1. **Clone the repo**
+   ```bash
+   git clone https://github.com/irvinezhao/epic-booklet-downloader.git
+   cd epic-booklet-downloader
+   ```
+
+2. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Copy SKILL.md to Hermes skills directory**
+   ```bash
+   cp SKILL.md ~/.hermes/skills/epic-booklet.md
+   ```
+
+4. **Set environment variables** (optional)
+   ```bash
+   export EPIC_EMAIL=your@email.com
+   export EPIC_PASSWORD=yourpass
+   ```
+
+5. **Use with Hermes Agent**
+   ```
+   # In Hermes chat:
+   "Download EPIC book 47110"
+   "Download this collection: https://www.getepic.com/app/user-collection/34822900"
+   "Download these books: 47110, 47200, 37798"
+   ```
+
+### Option 2: Use Standalone
 
 ```bash
 # Install dependencies
@@ -121,6 +156,10 @@ MIT License - see [LICENSE](LICENSE) for details.
 ## 🤝 Contributing
 
 Contributions welcome! Please open an issue or PR.
+
+## 📚 中文文档
+
+请查看 [README.zh-CN.md](README.zh-CN.md)
 
 ## ⭐ Star History
 
