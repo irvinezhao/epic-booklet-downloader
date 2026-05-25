@@ -165,10 +165,50 @@ If your agent supports loading markdown files as skills/instructions:
 - Python 3.10+
 - `Pillow` - Image processing and PDF generation
 - `requests` - HTTP client
+- `playwright` - Browser automation for reliable login (auto-fallback)
 
 ```bash
-pip install Pillow requests
+pip install -r requirements.txt
+playwright install chromium
 ```
+
+## 🤝 Contributors
+
+Thanks to all the people who have contributed!
+
+<!-- ALL-CONTRIBUTORS-LIST-START -->
+<!-- Add your profile here: https://allcontributors.org/docs/en/basics/add-to-project -->
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/irvinezhao">
+        <img src="https://github.com/irvinezhao.png" width="80" style="border-radius:50%" alt="irvinezhao"/>
+        <br />
+        <sub><b>Irving Zhao</b></sub>
+      </a>
+      <br />
+      <sub>Creator & Maintainer</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/KeaneYan">
+        <img src="https://github.com/KeaneYan.png" width="80" style="border-radius:50%" alt="KeaneYan"/>
+        <br />
+        <sub><b>Keane Yan</b></sub>
+      </a>
+      <br />
+      <sub>Token Auth (#1)</sub>
+    </td>
+  </tr>
+</table>
+<!-- ALL-CONTRIBUTORS-LIST-END -->
+
+### How to Contribute
+
+1. Fork the repo
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## 📝 License
 

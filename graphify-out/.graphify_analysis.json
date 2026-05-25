@@ -1,0 +1,116 @@
+{
+  "communities": {
+    "0": [
+      "scripts_epic_downloader_epicclient",
+      "scripts_epic_downloader_epicclient_get_book_data",
+      "scripts_epic_downloader_epicclient_get_collection_books",
+      "scripts_epic_downloader_epicclient_init",
+      "scripts_epic_downloader_epicclient_signed_get",
+      "scripts_epic_downloader_main",
+      "scripts_epic_downloader_rationale_162",
+      "scripts_epic_downloader_rationale_173",
+      "scripts_epic_downloader_rationale_192",
+      "scripts_epic_downloader_rationale_89"
+    ],
+    "1": [
+      "scripts_epic_downloader_create_booklet_pdf",
+      "scripts_epic_downloader_download_pages",
+      "scripts_epic_downloader_process_book",
+      "scripts_epic_downloader_py",
+      "scripts_epic_downloader_rationale_221",
+      "scripts_epic_downloader_rationale_248",
+      "scripts_epic_downloader_rationale_301",
+      "scripts_epic_downloader_rationale_306",
+      "scripts_epic_downloader_sanitize_filename"
+    ],
+    "2": [
+      "scripts_epic_downloader_compute_pass_hash",
+      "scripts_epic_downloader_compute_reqsig",
+      "scripts_epic_downloader_epicclient_login",
+      "scripts_epic_downloader_rationale_110",
+      "scripts_epic_downloader_rationale_60",
+      "scripts_epic_downloader_rationale_77"
+    ],
+    "3": [
+      "tests_test_epic_downloader_epicclientauthtests",
+      "tests_test_epic_downloader_epicclientauthtests_test_login_requires_credentials_without_token",
+      "tests_test_epic_downloader_epicclientauthtests_test_token_auth_sets_authorization_header_and_skips_password_hashing",
+      "tests_test_epic_downloader_py"
+    ]
+  },
+  "cohesion": {
+    "0": 0.26666666666666666,
+    "1": 0.3055555555555556,
+    "2": 0.3333333333333333,
+    "3": 0.5
+  },
+  "gods": [
+    {
+      "id": "scripts_epic_downloader_epicclient",
+      "label": "EpicClient",
+      "degree": 8
+    },
+    {
+      "id": "scripts_epic_downloader_process_book",
+      "label": "process_book()",
+      "degree": 7
+    },
+    {
+      "id": "scripts_epic_downloader_main",
+      "label": "main()",
+      "degree": 5
+    },
+    {
+      "id": "scripts_epic_downloader_compute_reqsig",
+      "label": "compute_reqsig()",
+      "degree": 4
+    },
+    {
+      "id": "tests_test_epic_downloader_epicclientauthtests",
+      "label": "EpicClientAuthTests",
+      "degree": 3
+    },
+    {
+      "id": "scripts_epic_downloader_compute_pass_hash",
+      "label": "compute_pass_hash()",
+      "degree": 3
+    },
+    {
+      "id": "scripts_epic_downloader_download_pages",
+      "label": "download_pages()",
+      "degree": 3
+    },
+    {
+      "id": "scripts_epic_downloader_create_booklet_pdf",
+      "label": "create_booklet_pdf()",
+      "degree": 3
+    },
+    {
+      "id": "scripts_epic_downloader_sanitize_filename",
+      "label": "sanitize_filename()",
+      "degree": 3
+    },
+    {
+      "id": "scripts_epic_downloader_rationale_60",
+      "label": "Compute the reqSig parameter for Epic API requests.          Algorithm (reverse-",
+      "degree": 1
+    }
+  ],
+  "surprises": [
+    {
+      "source": "main()",
+      "target": "process_book()",
+      "source_files": [
+        "scripts/epic_downloader.py",
+        "scripts/epic_downloader.py"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "note": "Bridges community 1 \u2192 community 0"
+    }
+  ],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}

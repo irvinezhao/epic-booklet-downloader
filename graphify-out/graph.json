@@ -1,0 +1,685 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "test_epic_downloader.py",
+      "file_type": "code",
+      "source_file": "tests/test_epic_downloader.py",
+      "source_location": "L1",
+      "community": 3,
+      "norm_label": "test_epic_downloader.py",
+      "id": "tests_test_epic_downloader_py"
+    },
+    {
+      "label": "EpicClientAuthTests",
+      "file_type": "code",
+      "source_file": "tests/test_epic_downloader.py",
+      "source_location": "L15",
+      "community": 3,
+      "norm_label": "epicclientauthtests",
+      "id": "tests_test_epic_downloader_epicclientauthtests"
+    },
+    {
+      "label": ".test_token_auth_sets_authorization_header_and_skips_password_hashing()",
+      "file_type": "code",
+      "source_file": "tests/test_epic_downloader.py",
+      "source_location": "L16",
+      "community": 3,
+      "norm_label": ".test_token_auth_sets_authorization_header_and_skips_password_hashing()",
+      "id": "tests_test_epic_downloader_epicclientauthtests_test_token_auth_sets_authorization_header_and_skips_password_hashing"
+    },
+    {
+      "label": ".test_login_requires_credentials_without_token()",
+      "file_type": "code",
+      "source_file": "tests/test_epic_downloader.py",
+      "source_location": "L24",
+      "community": 3,
+      "norm_label": ".test_login_requires_credentials_without_token()",
+      "id": "tests_test_epic_downloader_epicclientauthtests_test_login_requires_credentials_without_token"
+    },
+    {
+      "label": "epic_downloader.py",
+      "file_type": "code",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L1",
+      "community": 1,
+      "norm_label": "epic_downloader.py",
+      "id": "scripts_epic_downloader_py"
+    },
+    {
+      "label": "compute_reqsig()",
+      "file_type": "code",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L59",
+      "community": 2,
+      "norm_label": "compute_reqsig()",
+      "id": "scripts_epic_downloader_compute_reqsig"
+    },
+    {
+      "label": "compute_pass_hash()",
+      "file_type": "code",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L76",
+      "community": 2,
+      "norm_label": "compute_pass_hash()",
+      "id": "scripts_epic_downloader_compute_pass_hash"
+    },
+    {
+      "label": "EpicClient",
+      "file_type": "code",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L88",
+      "community": 0,
+      "norm_label": "epicclient",
+      "id": "scripts_epic_downloader_epicclient"
+    },
+    {
+      "label": ".__init__()",
+      "file_type": "code",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L91",
+      "community": 0,
+      "norm_label": ".__init__()",
+      "id": "scripts_epic_downloader_epicclient_init"
+    },
+    {
+      "label": ".login()",
+      "file_type": "code",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L109",
+      "community": 2,
+      "norm_label": ".login()",
+      "id": "scripts_epic_downloader_epicclient_login"
+    },
+    {
+      "label": "._signed_get()",
+      "file_type": "code",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L161",
+      "community": 0,
+      "norm_label": "._signed_get()",
+      "id": "scripts_epic_downloader_epicclient_signed_get"
+    },
+    {
+      "label": ".get_book_data()",
+      "file_type": "code",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L172",
+      "community": 0,
+      "norm_label": ".get_book_data()",
+      "id": "scripts_epic_downloader_epicclient_get_book_data"
+    },
+    {
+      "label": ".get_collection_books()",
+      "file_type": "code",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L191",
+      "community": 0,
+      "norm_label": ".get_collection_books()",
+      "id": "scripts_epic_downloader_epicclient_get_collection_books"
+    },
+    {
+      "label": "download_pages()",
+      "file_type": "code",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L220",
+      "community": 1,
+      "norm_label": "download_pages()",
+      "id": "scripts_epic_downloader_download_pages"
+    },
+    {
+      "label": "create_booklet_pdf()",
+      "file_type": "code",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L247",
+      "community": 1,
+      "norm_label": "create_booklet_pdf()",
+      "id": "scripts_epic_downloader_create_booklet_pdf"
+    },
+    {
+      "label": "sanitize_filename()",
+      "file_type": "code",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L300",
+      "community": 1,
+      "norm_label": "sanitize_filename()",
+      "id": "scripts_epic_downloader_sanitize_filename"
+    },
+    {
+      "label": "process_book()",
+      "file_type": "code",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L305",
+      "community": 1,
+      "norm_label": "process_book()",
+      "id": "scripts_epic_downloader_process_book"
+    },
+    {
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L357",
+      "community": 0,
+      "norm_label": "main()",
+      "id": "scripts_epic_downloader_main"
+    },
+    {
+      "label": "Compute the reqSig parameter for Epic API requests.          Algorithm (reverse-",
+      "file_type": "rationale",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L60",
+      "community": 2,
+      "norm_label": "compute the reqsig parameter for epic api requests.          algorithm (reverse-",
+      "id": "scripts_epic_downloader_rationale_60"
+    },
+    {
+      "label": "Compute the password hash for Epic login.          Algorithm (reverse-engineered",
+      "file_type": "rationale",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L77",
+      "community": 2,
+      "norm_label": "compute the password hash for epic login.          algorithm (reverse-engineered",
+      "id": "scripts_epic_downloader_rationale_77"
+    },
+    {
+      "label": "Epic API client with automatic authentication and signature generation.",
+      "file_type": "rationale",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L89",
+      "community": 0,
+      "norm_label": "epic api client with automatic authentication and signature generation.",
+      "id": "scripts_epic_downloader_rationale_89"
+    },
+    {
+      "label": "Authenticate and obtain a JWT token, unless one was provided.",
+      "file_type": "rationale",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L110",
+      "community": 2,
+      "norm_label": "authenticate and obtain a jwt token, unless one was provided.",
+      "id": "scripts_epic_downloader_rationale_110"
+    },
+    {
+      "label": "Make a signed GET request to the Epic API.",
+      "file_type": "rationale",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L162",
+      "community": 0,
+      "norm_label": "make a signed get request to the epic api.",
+      "id": "scripts_epic_downloader_rationale_162"
+    },
+    {
+      "label": "Fetch full book metadata including page image URLs.",
+      "file_type": "rationale",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L173",
+      "community": 0,
+      "norm_label": "fetch full book metadata including page image urls.",
+      "id": "scripts_epic_downloader_rationale_173"
+    },
+    {
+      "label": "Fetch all book IDs from a collection/favorites.",
+      "file_type": "rationale",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L192",
+      "community": 0,
+      "norm_label": "fetch all book ids from a collection/favorites.",
+      "id": "scripts_epic_downloader_rationale_192"
+    },
+    {
+      "label": "Download all page images and return paths of successfully downloaded files.",
+      "file_type": "rationale",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L221",
+      "community": 1,
+      "norm_label": "download all page images and return paths of successfully downloaded files.",
+      "id": "scripts_epic_downloader_rationale_221"
+    },
+    {
+      "label": "Create a saddle-stitch booklet PDF from page images.          The pages are reor",
+      "file_type": "rationale",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L248",
+      "community": 1,
+      "norm_label": "create a saddle-stitch booklet pdf from page images.          the pages are reor",
+      "id": "scripts_epic_downloader_rationale_248"
+    },
+    {
+      "label": "Remove unsafe characters from filename.",
+      "file_type": "rationale",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L301",
+      "community": 1,
+      "norm_label": "remove unsafe characters from filename.",
+      "id": "scripts_epic_downloader_rationale_301"
+    },
+    {
+      "label": "Download a single book and generate its booklet PDF.",
+      "file_type": "rationale",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L306",
+      "community": 1,
+      "norm_label": "download a single book and generate its booklet pdf.",
+      "id": "scripts_epic_downloader_rationale_306"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_epic_downloader.py",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_epic_downloader_py",
+      "target": "tests_test_epic_downloader_epicclientauthtests"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_epic_downloader.py",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_epic_downloader_epicclientauthtests",
+      "target": "tests_test_epic_downloader_epicclientauthtests_test_token_auth_sets_authorization_header_and_skips_password_hashing"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/test_epic_downloader.py",
+      "source_location": "L24",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_test_epic_downloader_epicclientauthtests",
+      "target": "tests_test_epic_downloader_epicclientauthtests_test_login_requires_credentials_without_token"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L59",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_py",
+      "target": "scripts_epic_downloader_compute_reqsig"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L76",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_py",
+      "target": "scripts_epic_downloader_compute_pass_hash"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L88",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_py",
+      "target": "scripts_epic_downloader_epicclient"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L220",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_py",
+      "target": "scripts_epic_downloader_download_pages"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L247",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_py",
+      "target": "scripts_epic_downloader_create_booklet_pdf"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L300",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_py",
+      "target": "scripts_epic_downloader_sanitize_filename"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L305",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_py",
+      "target": "scripts_epic_downloader_process_book"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L357",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_py",
+      "target": "scripts_epic_downloader_main"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L142",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_epicclient_login",
+      "target": "scripts_epic_downloader_compute_reqsig"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L163",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_epicclient_signed_get",
+      "target": "scripts_epic_downloader_compute_reqsig"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L60",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_rationale_60",
+      "target": "scripts_epic_downloader_compute_reqsig"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L119",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_epicclient_login",
+      "target": "scripts_epic_downloader_compute_pass_hash"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L77",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_rationale_77",
+      "target": "scripts_epic_downloader_compute_pass_hash"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L91",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_epicclient",
+      "target": "scripts_epic_downloader_epicclient_init"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L109",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_epicclient",
+      "target": "scripts_epic_downloader_epicclient_login"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L161",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_epicclient",
+      "target": "scripts_epic_downloader_epicclient_signed_get"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L172",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_epicclient",
+      "target": "scripts_epic_downloader_epicclient_get_book_data"
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L191",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_epicclient",
+      "target": "scripts_epic_downloader_epicclient_get_collection_books"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L395",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_main",
+      "target": "scripts_epic_downloader_epicclient"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L89",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_rationale_89",
+      "target": "scripts_epic_downloader_epicclient"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L396",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_main",
+      "target": "scripts_epic_downloader_epicclient_login"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L110",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_rationale_110",
+      "target": "scripts_epic_downloader_epicclient_login"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L183",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_epicclient_get_book_data",
+      "target": "scripts_epic_downloader_epicclient_signed_get"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L195",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_epicclient_get_collection_books",
+      "target": "scripts_epic_downloader_epicclient_signed_get"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L162",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_rationale_162",
+      "target": "scripts_epic_downloader_epicclient_signed_get"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L308",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_process_book",
+      "target": "scripts_epic_downloader_epicclient_get_book_data"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L173",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_rationale_173",
+      "target": "scripts_epic_downloader_epicclient_get_book_data"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L410",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_main",
+      "target": "scripts_epic_downloader_epicclient_get_collection_books"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L192",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_rationale_192",
+      "target": "scripts_epic_downloader_epicclient_get_collection_books"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L341",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_process_book",
+      "target": "scripts_epic_downloader_download_pages"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L221",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_rationale_221",
+      "target": "scripts_epic_downloader_download_pages"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L349",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_process_book",
+      "target": "scripts_epic_downloader_create_booklet_pdf"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L248",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_rationale_248",
+      "target": "scripts_epic_downloader_create_booklet_pdf"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L337",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_process_book",
+      "target": "scripts_epic_downloader_sanitize_filename"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L301",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_rationale_301",
+      "target": "scripts_epic_downloader_sanitize_filename"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L426",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_main",
+      "target": "scripts_epic_downloader_process_book"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/epic_downloader.py",
+      "source_location": "L306",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_epic_downloader_rationale_306",
+      "target": "scripts_epic_downloader_process_book"
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "211510e6620a6746e5002fa7bc3e6e36c959c1c6"
+}

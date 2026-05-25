@@ -116,47 +116,93 @@ class EpicClient:
             print("✗ Email and password required when no access token is provided")
             return False
 
-        pass_hash = compute_pass_hash(self.password)
-        
-        # Try the new auth endpoint
-        resp = self.session.post(
-            EPIC_NEW_AUTH_URL,
-            json={"email": self.email, "pass": pass_hash},
-            headers={"content-type": "application/json"},
-        )
-        
-        data = resp.json()
-        if data.get("accessToken"):
-            self.token = data["accessToken"]
+        # Attempt 1: New auth endpoint
+        try:
+            pass_hash = compute_pass_hash(self.password)
+            resp = self.session.post(
+                EPIC_NEW_AUTH_URL,
+                json={"email": self.email, "pass": pass_hash},
+                headers={"content-type": "application/json"},
+                timeout=10,
+            )
+            data = resp.json()
+            if isinstance(data, dict) and data.get("accessToken"):
+                self.token = data["accessToken"]
+                self.session.headers["authorization"] = f"Bearer {self.token}"
+                print("✓ Login successful (newauth)")
+                return True
+        except Exception as e:
+            print(f"  newauth failed: {e}")
+
+        # Attempt 2: WebAPI auth endpoint
+        try:
+            params = {
+                "email": self.email,
+                "pass": pass_hash,
+                "dev": "web",
+                "ver": "3.5",
+            }
+            sig = compute_reqsig({k: v for k, v in params.items() if k != "reqSig"})
+            params["reqSig"] = sig
+            resp = self.session.post(
+                f"{EPIC_API_BASE}?class=WebAuth&method=login",
+                data=params,
+                headers={"content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+                timeout=10,
+            )
+            # Handle double-encoded JSON response
+            raw = resp.json()
+            if isinstance(raw, str):
+                raw = json.loads(raw)
+            if isinstance(raw, dict) and raw.get("success") and raw.get("result", {}).get("accessToken"):
+                self.token = raw["result"]["accessToken"]
+                self.session.headers["authorization"] = f"Bearer {self.token}"
+                print("✓ Login successful (webapi)")
+                return True
+        except Exception as e:
+            print(f"  webapi failed: {e}")
+
+        # Attempt 3: Playwright browser login (most reliable)
+        print("  API login failed, trying Playwright browser login...")
+        token = self._playwright_login()
+        if token:
+            self.token = token
             self.session.headers["authorization"] = f"Bearer {self.token}"
-            print("✓ Login successful")
+            print("✓ Login successful (Playwright)")
             return True
-        
-        # Fallback: try the webapi auth endpoint
-        params = {
-            "email": self.email,
-            "pass": pass_hash,
-            "dev": "web",
-            "ver": "3.5",
-        }
-        sig = compute_reqsig({k: v for k, v in params.items() if k != "reqSig"})
-        params["reqSig"] = sig
-        
-        resp = self.session.post(
-            f"{EPIC_API_BASE}?class=WebAuth&method=login",
-            data=params,
-            headers={"content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-        )
-        
-        data = resp.json()
-        if data.get("success") and data.get("result", {}).get("accessToken"):
-            self.token = data["result"]["accessToken"]
-            self.session.headers["authorization"] = f"Bearer {self.token}"
-            print("✓ Login successful")
-            return True
-        
-        print(f"✗ Login failed: {data.get('errorMessage', 'unknown error')}")
+
+        print("✗ All login methods failed")
         return False
+
+    def _playwright_login(self) -> str | None:
+        """Login via Playwright browser automation. Returns JWT token or None."""
+        try:
+            import asyncio
+            from playwright.async_api import async_playwright
+        except ImportError:
+            print("  Playwright not installed. Run: pip install playwright && playwright install chromium")
+            return None
+
+        async def _do_login():
+            async with async_playwright() as p:
+                browser = await p.chromium.launch(headless=True)
+                page = await browser.new_page()
+                await page.goto("https://www.getepic.com/sign-in/parent", timeout=30000)
+                await asyncio.sleep(2)
+                await page.fill('input[placeholder="Email"]', self.email)
+                await page.fill('input[type="password"]', self.password)
+                await asyncio.sleep(0.5)
+                await page.click('button[type="submit"]')
+                await asyncio.sleep(5)
+                token = await page.evaluate("localStorage.getItem('accessToken')")
+                await browser.close()
+                return token.strip('"') if token else None
+
+        try:
+            return asyncio.run(_do_login())
+        except Exception as e:
+            print(f"  Playwright login error: {e}")
+            return None
     
     def _signed_get(self, cls: str, method: str, params: dict) -> dict:
         """Make a signed GET request to the Epic API."""

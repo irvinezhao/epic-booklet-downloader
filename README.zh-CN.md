@@ -165,10 +165,49 @@ cp SKILL.md ~/.openclaw/skills/epic-booklet.md
 - Python 3.10+
 - `Pillow` - 图像处理和PDF生成
 - `requests` - HTTP客户端
+- `playwright` - 浏览器自动化，用于可靠登录（自动降级）
 
 ```bash
-pip install Pillow requests
+pip install -r requirements.txt
+playwright install chromium
 ```
+
+## 🤝 贡献者
+
+感谢所有贡献者！
+
+<!-- ALL-CONTRIBUTORS-LIST-START -->
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/irvinezhao">
+        <img src="https://github.com/irvinezhao.png" width="80" style="border-radius:50%" alt="irvinezhao"/>
+        <br />
+        <sub><b>Irving Zhao</b></sub>
+      </a>
+      <br />
+      <sub>创建者 & 维护者</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/KeaneYan">
+        <img src="https://github.com/KeaneYan.png" width="80" style="border-radius:50%" alt="KeaneYan"/>
+        <br />
+        <sub><b>Keane Yan</b></sub>
+      </a>
+      <br />
+      <sub>Token 认证 (#1)</sub>
+    </td>
+  </tr>
+</table>
+<!-- ALL-CONTRIBUTORS-LIST-END -->
+
+### 如何贡献
+
+1. Fork 本仓库
+2. 创建特性分支 (`git checkout -b feature/amazing-feature`)
+3. 提交更改 (`git commit -m 'Add amazing feature'`)
+4. 推送到分支 (`git push origin feature/amazing-feature`)
+5. 创建 Pull Request
 
 ## 📝 许可证
 
