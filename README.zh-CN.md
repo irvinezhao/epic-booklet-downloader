@@ -227,7 +227,9 @@ MIT License - 详见 [LICENSE](LICENSE)
 
 See [README.md](README.md)
 
-## 📊 统计
+## ⭐ Star History
+
+![Star History Chart](star_history.png)
 
 <p align="center">
   <a href="https://github.com/irvinezhao/epic-booklet-downloader/stargazers"><img src="https://img.shields.io/github/stars/irvinezhao/epic-booklet-downloader?style=social&logo=github" alt="Stars"></a>

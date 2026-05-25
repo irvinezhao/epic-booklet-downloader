@@ -228,7 +228,9 @@ Contributions welcome! Please open an issue or PR.
 
 请查看 [README.zh-CN.md](README.zh-CN.md)
 
-## 📊 Stats
+## ⭐ Star History
+
+![Star History Chart](star_history.png)
 
 <p align="center">
   <a href="https://github.com/irvinezhao/epic-booklet-downloader/stargazers"><img src="https://img.shields.io/github/stars/irvinezhao/epic-booklet-downloader?style=social&logo=github" alt="Stars"></a>
