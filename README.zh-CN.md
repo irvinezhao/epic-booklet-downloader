@@ -240,4 +240,10 @@ See [README.md](README.md)
 
 ## ⭐ Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=irvinezhao/epic-booklet-downloader&type=Date)](https://star-history.com/#irvinezhao/epic-booklet-downloader&Date)
+<p align="center">
+  <a href="https://star-history.com/#irvinezhao/epic-booklet-downloader&Date">
+    <img src="https://api.star-history.com/svg?repos=irvinezhao/epic-booklet-downloader&type=Date" width="600" />
+  </a>
+</p>
+
+[![GitHub Stars](https://img.shields.io/github/stars/irvinezhao/epic-booklet-downloader?style=social)](https://github.com/irvinezhao/epic-booklet-downloader)
