@@ -224,17 +224,6 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 Contributions welcome! Please open an issue or PR.
 
-## 👥 Contributors
-
-<!-- Contributors will be automatically added here -->
-<!-- Use https://contrib.rocks or add manually -->
-
-<a href="https://github.com/irvinezhao/epic-booklet-downloader/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=irvinezhao/epic-booklet-downloader" />
-</a>
-
-Made with [contrib.rocks](https://contrib.rocks).
-
 ## 📚 中文文档
 
 请查看 [README.zh-CN.md](README.zh-CN.md)

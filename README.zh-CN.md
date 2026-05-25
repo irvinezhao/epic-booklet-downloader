@@ -223,17 +223,6 @@ MIT License - 详见 [LICENSE](LICENSE)
 
 欢迎贡献！请提交 Issue 或 PR。
 
-## 👥 贡献者
-
-<!-- 贡献者会自动添加到这里 -->
-<!-- 使用 https://contrib.rocks 或手动添加 -->
-
-<a href="https://github.com/irvinezhao/epic-booklet-downloader/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=irvinezhao/epic-booklet-downloader" />
-</a>
-
-Made with [contrib.rocks](https://contrib.rocks).
-
 ## 📚 English Documentation
 
 See [README.md](README.md)
