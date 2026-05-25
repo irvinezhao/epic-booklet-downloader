@@ -227,12 +227,11 @@ MIT License - 详见 [LICENSE](LICENSE)
 
 See [README.md](README.md)
 
-## ⭐ Star History
+## 📊 统计
 
 <p align="center">
-  <a href="https://www.star-history.com/?type=date&repos=irvinezhao%2Fepic-booklet-downloader">
-    <img src="https://api.star-history.com/svg?repos=irvinezhao/epic-booklet-downloader&type=Date" width="600" />
-  </a>
+  <a href="https://github.com/irvinezhao/epic-booklet-downloader/stargazers"><img src="https://img.shields.io/github/stars/irvinezhao/epic-booklet-downloader?style=social&logo=github" alt="Stars"></a>
+  <a href="https://github.com/irvinezhao/epic-booklet-downloader/network/members"><img src="https://img.shields.io/github/forks/irvinezhao/epic-booklet-downloader?style=social&logo=github" alt="Forks"></a>
+  <a href="https://github.com/irvinezhao/epic-booklet-downloader/issues"><img src="https://img.shields.io/github/issues/irvinezhao/epic-booklet-downloader?style=social&logo=github" alt="Issues"></a>
+  <a href="https://github.com/irvinezhao/epic-booklet-downloader/blob/main/LICENSE"><img src="https://img.shields.io/github/license/irvinezhao/epic-booklet-downloader?style=social&logo=github" alt="License"></a>
 </p>
-
-[![GitHub Stars](https://img.shields.io/github/stars/irvinezhao/epic-booklet-downloader?style=social)](https://github.com/irvinezhao/epic-booklet-downloader)
