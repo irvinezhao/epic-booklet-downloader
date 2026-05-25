@@ -235,5 +235,3 @@ Contributions welcome! Please open an issue or PR.
     <img src="https://api.star-history.com/svg?repos=irvinezhao/epic-booklet-downloader&type=Date" width="600" />
   </a>
 </p>
-
-[![GitHub Stars](https://img.shields.io/github/stars/irvinezhao/epic-booklet-downloader?style=social)](https://github.com/irvinezhao/epic-booklet-downloader)
