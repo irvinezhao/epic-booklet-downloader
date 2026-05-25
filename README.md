@@ -231,7 +231,7 @@ Contributions welcome! Please open an issue or PR.
 ## ⭐ Star History
 
 <p align="center">
-  <a href="https://star-history.com/#irvinezhao/epic-booklet-downloader&Date">
+  <a href="https://www.star-history.com/?type=date&repos=irvinezhao%2Fepic-booklet-downloader">
     <img src="https://api.star-history.com/svg?repos=irvinezhao/epic-booklet-downloader&type=Date" width="600" />
   </a>
 </p>
