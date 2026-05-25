@@ -13,7 +13,7 @@ Requirements:
     pip install Pillow requests
 
 How it works:
-    1. Authenticates via Epic's new auth API (educator account)
+    1. Authenticates via Epic's API (token preferred, email/password as fallback)
     2. Reverse-engineers the reqSig parameter (MD5 + salt)
     3. Fetches book metadata via WebBook.getFullDataForWeb
     4. Downloads all page images from CDN
@@ -52,6 +52,7 @@ EPIC_API_BASE = "https://api-web.getepic.com/webapi/index.php"
 EPIC_CDN_BASE = "https://cdn-gcp-media-drm-v2.getepic.com"
 EPIC_AUTH_PASS_SALT = "(Y&(*SYH!!--csDI)"
 EPIC_NEW_AUTH_URL = "https://api-web.getepic.com/newauth/auth/login"
+EPIC_AUTH_BASE = "https://auth.getepic.com/api/v1"
 
 
 # ─── Signature ────────────────────────────────────────────────────────────────
@@ -110,99 +111,175 @@ class EpicClient:
         """Authenticate and obtain a JWT token, unless one was provided."""
         if self.token:
             print("✓ Using provided access token")
-            return True
+            # Validate the token by making a test API call
+            if self._validate_token():
+                return True
+            print("✗ Token expired or invalid. Please provide a fresh token.")
+            return False
 
         if not self.email or not self.password:
             print("✗ Email and password required when no access token is provided")
+            print("  Tip: Use --token with a fresh JWT from browser DevTools")
+            print("  (Network tab → any api-web.getepic.com request → Authorization header)")
             return False
 
-        # Attempt 1: New auth endpoint
+        # Try multiple login methods
+        pass_hash = compute_pass_hash(self.password)
+        
+        # Method 1: WebAccount.noAuthlogin (primary - found in Angular source)
+        if self._login_noauthlogin(pass_hash):
+            return True
+        
+        # Method 2: newauth endpoint
+        if self._login_newauth(pass_hash):
+            return True
+        
+        # Method 3: WebAuth.login fallback
+        if self._login_webauth(pass_hash):
+            return True
+        
+        print("\n✗ All login methods failed.")
+        print("  Your account may need browser-based authentication.")
+        print("  To get a token:")
+        print("    1. Open https://www.getepic.com/sign-in in your browser")
+        print("    2. Log in with your educator account")
+        print("    3. Open DevTools (F12) → Network tab")
+        print("    4. Find any request to api-web.getepic.com")
+        print("    5. Copy the token from the Authorization header (after 'Bearer ')")
+        print("    6. Run: python scripts/epic_downloader.py --token <YOUR_TOKEN> --book-id <ID>")
+        return False
+    
+    def _validate_token(self) -> bool:
+        """Validate the current token by making a test API call."""
         try:
-            pass_hash = compute_pass_hash(self.password)
+            params = {"dev": "web", "ver": "3.5"}
+            data = self._signed_get("WebAccount", "getSubscriptionStatus", params)
+            if data.get("success") or data.get("result"):
+                print("✓ Token validated successfully")
+                return True
+            print(f"  ⚠ Token validation response: {data.get('errorMessage', 'unknown')}")
+            # Even if validation fails, the token might still work for book data
+            # Don't block on validation failure - let the actual book download try
+            return True
+        except Exception as e:
+            print(f"  ⚠ Token validation error: {e}")
+            # Assume token might still work
+            return True
+    
+    def _login_noauthlogin(self, pass_hash: str) -> bool:
+        """Login via WebAccount.noAuthlogin (found in Angular app source)."""
+        print("  Trying WebAccount.noAuthlogin...")
+        params = {
+            "email": self.email,
+            "pass": pass_hash,
+            "dev": "web",
+            "ver": "3.5",
+        }
+        sig = compute_reqsig({k: v for k, v in params.items() if k != "reqSig"})
+        params["reqSig"] = sig
+        
+        try:
+            resp = self.session.post(
+                f"{EPIC_API_BASE}?class=WebAccount&method=noAuthlogin",
+                data=params,
+                headers={"content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+            )
+            
+            raw = resp.json()
+            # Handle double-encoded JSON (response is a JSON string inside JSON)
+            data = json.loads(raw) if isinstance(raw, str) else raw
+            
+            result = data.get("result", {})
+            if isinstance(result, dict) and result.get("success"):
+                token = result.get("accessToken") or result.get("consumerLoginKey")
+                if token:
+                    self.token = token
+                    self.session.headers["authorization"] = f"Bearer {self.token}"
+                    print("✓ Login successful via WebAccount.noAuthlogin")
+                    return True
+            
+            # Check for specific error types
+            if isinstance(result, dict):
+                if result.get("NOT_FOUND") or result.get("INCORRECT_PASSWORD"):
+                    print("  ✗ Invalid email or password")
+                    return False
+        except Exception as e:
+            print(f"  ✗ noAuthlogin error: {e}")
+        
+        return False
+    
+    def _login_newauth(self, pass_hash: str) -> bool:
+        """Login via newauth endpoint (legacy)."""
+        print("  Trying newauth endpoint...")
+        try:
             resp = self.session.post(
                 EPIC_NEW_AUTH_URL,
                 json={"email": self.email, "pass": pass_hash},
                 headers={"content-type": "application/json"},
-                timeout=10,
             )
-            data = resp.json()
-            if isinstance(data, dict) and data.get("accessToken"):
+            
+            raw = resp.json()
+            data = json.loads(raw) if isinstance(raw, str) else raw
+            
+            if data.get("accessToken"):
                 self.token = data["accessToken"]
                 self.session.headers["authorization"] = f"Bearer {self.token}"
-                print("✓ Login successful (newauth)")
+                print("✓ Login successful via newauth")
+                return True
+            
+            # Check for nested result
+            result = data.get("result", {})
+            if isinstance(result, dict) and result.get("accessToken"):
+                self.token = result["accessToken"]
+                self.session.headers["authorization"] = f"Bearer {self.token}"
+                print("✓ Login successful via newauth (nested)")
                 return True
         except Exception as e:
-            print(f"  newauth failed: {e}")
-
-        # Attempt 2: WebAPI auth endpoint
+            print(f"  ✗ newauth error: {e}")
+        
+        return False
+    
+    def _login_webauth(self, pass_hash: str) -> bool:
+        """Login via WebAuth.login (legacy fallback)."""
+        print("  Trying WebAuth.login...")
+        params = {
+            "email": self.email,
+            "pass": pass_hash,
+            "dev": "web",
+            "ver": "3.5",
+        }
+        sig = compute_reqsig({k: v for k, v in params.items() if k != "reqSig"})
+        params["reqSig"] = sig
+        
         try:
-            params = {
-                "email": self.email,
-                "pass": pass_hash,
-                "dev": "web",
-                "ver": "3.5",
-            }
-            sig = compute_reqsig({k: v for k, v in params.items() if k != "reqSig"})
-            params["reqSig"] = sig
             resp = self.session.post(
                 f"{EPIC_API_BASE}?class=WebAuth&method=login",
                 data=params,
                 headers={"content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-                timeout=10,
             )
-            # Handle double-encoded JSON response
+            
             raw = resp.json()
-            if isinstance(raw, str):
-                raw = json.loads(raw)
-            if isinstance(raw, dict) and raw.get("success") and raw.get("result", {}).get("accessToken"):
-                self.token = raw["result"]["accessToken"]
+            # CRITICAL: Handle double-encoded JSON (the response is a JSON string)
+            data = json.loads(raw) if isinstance(raw, str) else raw
+            
+            result = data.get("result", {})
+            if isinstance(result, dict) and result.get("accessToken"):
+                self.token = result["accessToken"]
                 self.session.headers["authorization"] = f"Bearer {self.token}"
-                print("✓ Login successful (webapi)")
+                print("✓ Login successful via WebAuth.login")
                 return True
+            
+            if data.get("success") and isinstance(result, dict):
+                token = result.get("accessToken")
+                if token:
+                    self.token = token
+                    self.session.headers["authorization"] = f"Bearer {self.token}"
+                    print("✓ Login successful via WebAuth.login")
+                    return True
         except Exception as e:
-            print(f"  webapi failed: {e}")
-
-        # Attempt 3: Playwright browser login (most reliable)
-        print("  API login failed, trying Playwright browser login...")
-        token = self._playwright_login()
-        if token:
-            self.token = token
-            self.session.headers["authorization"] = f"Bearer {self.token}"
-            print("✓ Login successful (Playwright)")
-            return True
-
-        print("✗ All login methods failed")
+            print(f"  ✗ WebAuth.login error: {e}")
+        
         return False
-
-    def _playwright_login(self) -> str | None:
-        """Login via Playwright browser automation. Returns JWT token or None."""
-        try:
-            import asyncio
-            from playwright.async_api import async_playwright
-        except ImportError:
-            print("  Playwright not installed. Run: pip install playwright && playwright install chromium")
-            return None
-
-        async def _do_login():
-            async with async_playwright() as p:
-                browser = await p.chromium.launch(headless=True)
-                page = await browser.new_page()
-                await page.goto("https://www.getepic.com/sign-in/parent", timeout=30000)
-                await asyncio.sleep(2)
-                await page.fill('input[placeholder="Email"]', self.email)
-                await page.fill('input[type="password"]', self.password)
-                await asyncio.sleep(0.5)
-                await page.click('button[type="submit"]')
-                await asyncio.sleep(5)
-                token = await page.evaluate("localStorage.getItem('accessToken')")
-                await browser.close()
-                return token.strip('"') if token else None
-
-        try:
-            return asyncio.run(_do_login())
-        except Exception as e:
-            print(f"  Playwright login error: {e}")
-            return None
     
     def _signed_get(self, cls: str, method: str, params: dict) -> dict:
         """Make a signed GET request to the Epic API."""
@@ -213,7 +290,10 @@ class EpicClient:
         url = f"{EPIC_API_BASE}?class={cls}&method={method}&{qs}"
         
         resp = self.session.get(url)
-        return resp.json()
+        
+        # Handle double-encoded JSON
+        raw = resp.json()
+        return json.loads(raw) if isinstance(raw, str) else raw
     
     def get_book_data(self, book_id: str) -> dict | None:
         """Fetch full book metadata including page image URLs."""
@@ -413,9 +493,16 @@ Examples:
   %(prog)s --collection 34822900
 
 Environment variables (alternative to CLI args):
-  EPIC_ACCESS_TOKEN - Epic JWT access token
+  EPIC_ACCESS_TOKEN - Epic JWT access token (RECOMMENDED)
   EPIC_EMAIL        - Epic account email
   EPIC_PASSWORD     - Epic account password
+
+Getting a token (recommended over email/password):
+  1. Open https://www.getepic.com/sign-in in your browser
+  2. Log in with your educator account
+  3. Open DevTools (F12) → Network tab
+  4. Find any request to api-web.getepic.com
+  5. Copy the token from Authorization header (after 'Bearer ')
         """,
     )
     
@@ -424,13 +511,14 @@ Environment variables (alternative to CLI args):
     parser.add_argument("--collection", help="Collection/favorites ID to download all books")
     parser.add_argument("--email", default=os.environ.get("EPIC_EMAIL"), help="Epic account email")
     parser.add_argument("--password", default=os.environ.get("EPIC_PASSWORD"), help="Epic account password")
-    parser.add_argument("--token", default=os.environ.get("EPIC_ACCESS_TOKEN"), help="Epic JWT access token (alternative to email/password)")
+    parser.add_argument("--token", default=os.environ.get("EPIC_ACCESS_TOKEN"), help="Epic JWT access token (RECOMMENDED)")
     parser.add_argument("--output", "-o", default="./epic_books", help="Output directory (default: ./epic_books)")
     
     args = parser.parse_args()
     
     if not args.token and (not args.email or not args.password):
         print("Error: provide either --token/EPIC_ACCESS_TOKEN or email and password (via --email/--password or EPIC_EMAIL/EPIC_PASSWORD)")
+        print("\nRecommended: use --token (more reliable, no password needed)")
         sys.exit(1)
     
     if not any([args.book_id, args.book_ids, args.collection]):

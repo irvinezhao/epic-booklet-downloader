@@ -27,19 +27,25 @@ pip install -r requirements.txt
 
 ### 设置账号
 
-优先使用短期浏览器 access token，这样不用把账号密码传给脚本：
+**推荐使用 Token 认证** — 更可靠，密码不会传给脚本。
 
 ```bash
-export EPIC_ACCESS_TOKEN=your_epic_jwt
+export EPIC_ACCESS_TOKEN=your_jwt_token
 ```
 
-获取方式：浏览器 DevTools → Network → 任意 `api-web.getepic.com` 请求 → 复制 authorization header 中 bearer 前缀后面的 token。
+**获取 Token 方式：**
+1. 浏览器打开 https://www.getepic.com/sign-in
+2. 点击 "Students & Educators" → "Enter Educator Email"
+3. 用教育者账号登录
+4. 打开 DevTools (F12) → Network 标签
+5. 找到任意发往 `api-web.getepic.com` 的请求
+6. 复制 `Authorization` header 中的 token（`Bearer ` 后面的部分）
 
-也可以使用邮箱/密码：
+也可以使用邮箱/密码（可能因 API 变更而失败）：
 
 ```bash
 export EPIC_EMAIL=your@email.com
-export EPIC_PASSWORD=yourpass
+export EPIC_PASSWORD=***
 ```
 
 或通过命令行参数直接传入：
@@ -217,13 +223,20 @@ MIT License - 详见 [LICENSE](LICENSE)
 
 欢迎贡献！请提交 Issue 或 PR。
 
+## 👥 贡献者
+
+<!-- 贡献者会自动添加到这里 -->
+<!-- 使用 https://contrib.rocks 或手动添加 -->
+
+<a href="https://github.com/irvinezhao/epic-booklet-downloader/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=irvinezhao/epic-booklet-downloader" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
+
 ## 📚 English Documentation
 
 See [README.md](README.md)
-
-## ⭐ Star History
-
-If you find this useful, please star the repo!
 
 ## ⭐ Star History
 

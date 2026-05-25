@@ -9,69 +9,76 @@ description: |
 
 # Epic Booklet Downloader
 
-A standalone Python tool for downloading EPIC children's books and generating printable saddle-stitch booklet PDFs.
+Download children's books from getepic.com and generate print-ready saddle-stitch booklet PDFs.
 
-**Repository**: https://github.com/irvinezhao/epic-booklet-downloader
-
-## Quick Start
-
-### 1. Install
+## Prerequisites
 
 ```bash
-git clone https://github.com/irvinezhao/epic-booklet-downloader.git
-cd epic-booklet-downloader
-pip install -r requirements.txt
+pip install Pillow requests
 ```
 
-### 2. Set Credentials
+## Authentication (IMPORTANT)
 
-Prefer a short-lived browser access token so the script does not need your account password:
+Epic's API auth has changed. **Token-based auth is now the primary and most reliable method.** Email/password login may fail due to API changes.
+
+### Token Auth (Recommended)
 
 ```bash
-export EPIC_ACCESS_TOKEN=your_epic_jwt
+export EPIC_ACCESS_TOKEN=your_jwt_token
+python scripts/epic_downloader.py --book-id 47110
 ```
 
-Alternatively, use email/password:
+**How to get a token:**
+1. Open https://www.getepic.com/sign-in in your browser
+2. Click "Students & Educators" → "Enter Educator Email"
+3. Log in with your educator account
+4. Open DevTools (F12) → Network tab
+5. Find any request to `api-web.getepic.com`
+6. Copy the token from the `Authorization` header (the part after `Bearer `)
+7. Use it with `--token` or set `EPIC_ACCESS_TOKEN`
+
+**Token lifetime:** ~24 hours. Re-login to refresh.
+
+### Email/Password Auth (Fallback)
 
 ```bash
 export EPIC_EMAIL=your@email.com
 export EPIC_PASSWORD=yourpass
+python scripts/epic_downloader.py --book-id 47110
 ```
 
-### 3. Download
+⚠️ **Note:** Email/password auth tries 3 methods (noAuthlogin, newauth, WebAuth) but all may fail if Epic has changed their API. If login fails, use token auth.
+
+### CLI Flags
 
 ```bash
-# Single book
+python scripts/epic_downloader.py --token your_jwt --book-id 47110
+python scripts/epic_downloader.py --email your@email.com --password yourpass --book-id 47110
+```
+
+## Usage
+
+### Single Book
+```bash
 python scripts/epic_downloader.py --book-id 47110
+```
 
-# Multiple books
+### Multiple Books
+```bash
 python scripts/epic_downloader.py --book-ids 47110,47200,37798
+```
 
-# Entire collection
+### Entire Collection
+```bash
 python scripts/epic_downloader.py --collection 34822900
 ```
 
-## CLI Options
-
-```
---book-id ID          Download single book by ID
---book-ids ID,ID,...  Download multiple books (comma-separated)
---collection ID       Download entire collection
---output DIR          Output directory (default: ./epic_books)
---token TOKEN         Epic JWT access token
---email EMAIL         Epic account email
---password PASS       Epic account password
+### Custom Output Directory
+```bash
+python scripts/epic_downloader.py --book-id 47110 --output ./my_books
 ```
 
-## How It Works
-
-1. **Login**: Authenticates via Epic's auth API (educator/parent account)
-2. **Signature**: Computes `reqSig` using reverse-engineered MD5 + salt algorithm
-3. **Fetch**: Gets book metadata via `WebBook.getFullDataForWeb` API
-4. **Download**: Downloads all page images from CDN (no auth required)
-5. **PDF**: Generates saddle-stitch booklet with proper page ordering
-
-### The `reqSig` Algorithm
+## The reqSig Algorithm (for reference)
 
 ```python
 import hashlib, json
@@ -87,8 +94,37 @@ def compute_reqsig(params: dict) -> str:
     return hashlib.md5(sig_str.encode()).hexdigest()
 ```
 
-## Output Structure
+## API Details
 
+### Book Data Endpoint
+```
+GET https://api-web.getepic.com/webapi/index.php
+  ?class=WebBook&method=getFullDataForWeb
+  &bookId=<ID>&dev=web&isFreemium=0&needAssignmentType=0
+  &timezoneOffsetMinutes=480&ver=3.5&reqSig=<SIG>
+```
+
+### Response Structure
+```json
+{
+  "success": 1,
+  "result": {
+    "book": {"id": "47110", "title": "二月二的故事", "numPages": 23},
+    "epub": {
+      "spine": [
+        {"pageCdn": "https://cdn-gcp-media-drm-v2.getepic.com/drm/0/47110/...jpg?Expires=...&Signature=..."}
+      ]
+    }
+  }
+}
+```
+
+### Login Endpoints (tried in order)
+1. `WebAccount.noAuthlogin` — Primary (found in Angular source)
+2. `newauth/auth/login` — Legacy
+3. `WebAuth.login` — Legacy fallback (returns double-encoded JSON)
+
+## Output Structure
 ```
 epic_books/
 ├── 二月二的故事/
@@ -101,38 +137,37 @@ epic_books/
 ```
 
 ## Print Instructions
-
 1. Print double-sided (flip on short edge)
 2. Fold in half along the spine
 3. Staple at fold (2 staples)
 
 ## Pitfalls
 
+- **Token is king**: Email/password auth is unreliable due to Epic API changes. Always prefer `--token`
 - **Token expiry**: JWT tokens expire after ~24 hours. Re-login if API returns "Not Authed"
 - **CDN URLs**: Page image URLs expire after ~24 hours. Re-run to refresh
 - **Rate limiting**: Script includes 0.3s delay between books. Don't remove it
-- **Login endpoint**: Try `newauth.getepic.com` first, fall back to `WebAuth.login`
-- **Browser-based auth**: If API login fails, provide a fresh JWT token from browser DevTools (Network tab → find any `api-web.getepic.com` request → copy Bearer token)
+- **Double-encoded JSON**: The `WebAuth.login` endpoint returns a JSON string inside JSON. The script handles this automatically
+- **Browser session**: Headless browser sessions expire quickly. Use token auth for CLI usage
+- **Special chars in titles**: `/` in titles creates nested directories. Replaced with `_` or stripped
 
-## AI Agent Integration
+## Troubleshooting
 
-This skill works with multiple AI agent platforms:
+### "All login methods failed"
+→ Use token auth. Follow the instructions in the error message to get a token from browser DevTools.
 
-| Platform | Skill Directory |
-|----------|----------------|
-| [Hermes Agent](https://github.com/NousResearch/hermes-agent) | `~/.hermes/skills/` |
-| [OpenClaw](https://github.com/open-claw/open-claw) | `~/.openclaw/skills/` |
-| Custom | Any markdown-compatible skill path |
+### "Not Authed" on book download
+→ Token expired. Get a fresh token from browser.
 
-### Usage Examples
+### No pages found
+→ Book ID might be wrong, or the book requires a subscription your account doesn't have.
 
-Once installed as a skill, you can ask your agent:
+### PDF is blank
+→ CDN URLs expired. Re-run the download.
 
-- "Download EPIC book 47110"
-- "Download this collection: https://www.getepic.com/app/user-collection/34822900"
-- "Download these books: 47110, 47200, 37798"
+## Repository
 
-## Documentation
+GitHub: https://github.com/irvinezhao/epic-booklet-downloader
 
 - English: [README.md](https://github.com/irvinezhao/epic-booklet-downloader/blob/main/README.md)
 - 中文: [README.zh-CN.md](https://github.com/irvinezhao/epic-booklet-downloader/blob/main/README.zh-CN.md)

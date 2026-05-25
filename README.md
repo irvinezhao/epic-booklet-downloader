@@ -25,21 +25,27 @@ cd epic-booklet-downloader
 pip install -r requirements.txt
 ```
 
-### Set Credentials
+### Authentication
 
-Prefer a short-lived browser access token so your account password is not passed to the script:
+**Token-based auth is recommended** — more reliable and your password never touches the script.
 
 ```bash
-export EPIC_ACCESS_TOKEN=your_epic_jwt
+export EPIC_ACCESS_TOKEN=your_jwt_token
 ```
 
-You can copy it from browser DevTools (Network tab → any `api-web.getepic.com` request → copy the authorization header value after the bearer prefix).
+**How to get a token:**
+1. Open https://www.getepic.com/sign-in in your browser
+2. Click "Students & Educators" → "Enter Educator Email"
+3. Log in with your educator account
+4. Open DevTools (F12) → Network tab
+5. Find any request to `api-web.getepic.com`
+6. Copy the token from the `Authorization` header (after `Bearer `)
 
-Alternatively, use email/password:
+Alternatively, use email/password (may not work due to API changes):
 
 ```bash
 export EPIC_EMAIL=your@email.com
-export EPIC_PASSWORD=yourpass
+export EPIC_PASSWORD=***
 ```
 
 Or pass credentials directly via CLI flags:
@@ -218,13 +224,20 @@ MIT License - see [LICENSE](LICENSE) for details.
 
 Contributions welcome! Please open an issue or PR.
 
+## 👥 Contributors
+
+<!-- Contributors will be automatically added here -->
+<!-- Use https://contrib.rocks or add manually -->
+
+<a href="https://github.com/irvinezhao/epic-booklet-downloader/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=irvinezhao/epic-booklet-downloader" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
+
 ## 📚 中文文档
 
 请查看 [README.zh-CN.md](README.zh-CN.md)
-
-## ⭐ Star History
-
-If you find this useful, please star the repo!
 
 ## ⭐ Star History
 
